@@ -14,7 +14,7 @@ class CreateEventsTable extends Migration
             $table->text('description');
             $table->string('location');
             $table->dateTime('date');
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
         });
     }

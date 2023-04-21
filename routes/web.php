@@ -1,23 +1,32 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\EventController;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
+|
+*/
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth/login');
 });
 
-// Rutas para eventos
-Route::get('/events', [EventController::class, 'index'])->name('events.index');
-Route::get('/events/{event}/edit', [EventController::class, 'edit'])->name('events.edit');
-Route::put('/events/{event}', [EventController::class, 'update'])->name('events.update');
-Route::delete('/events/{event}', [EventController::class, 'destroy'])->name('events.destroy');
+Auth::routes();
 
-Route::get('/events/create', [EventController::class, 'create'])->name('events.create');
-Route::post('/events', [EventController::class, 'store'])->name('events.store');
-
-// Rutas para asistentes a eventos
-Route::get('/events/{event}/attendees', [EventController::class, 'attendees'])->name('events.attendees');
-Route::get('/events/{event}/attendees/create', [EventController::class, 'createAttendee'])->name('events.attendees.create');
-Route::post('/events/{event}/attendees', [EventController::class, 'storeAttendee'])->name('events.attendees.store');
-Route::delete('/events/{event}/attendees/{userEventAttendee}', [EventController::class, 'destroyAttendee'])->name('events.attendees.destroy');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/events', [App\Http\Controllers\EventController::class, 'index'])->name('events.index'); 
+Route::get('/events/create', [App\Http\Controllers\EventController::class, 'create'])->name('events.create'); 
+Route::post('/events/create/store',[App\Http\Controllers\EventController::class,'store'])->name('events.store');
+Route::get('/events/{id}', [App\Http\Controllers\EventController::class, 'show'])->name('events.show');
+Route::get('/events/{id}/edit', [App\Http\Controllers\EventController::class, 'edit'])->name('events.edit');
+Route::put('/events/{id}', [App\Http\Controllers\EventController::class, 'update'])->name('events.update');
+Route::delete('/events/{id}', [App\Http\Controllers\EventController::class, 'destroy'])->name('events.destroy');
+Route::get('/events/{id}/register', [App\Http\Controllers\EventController::class, 'register'])->name('events.register');
+Route::post('/events/{id}/attendees',[App\Http\Controllers\EventController::class,'storeAttendee'])->name('events_users.store');
